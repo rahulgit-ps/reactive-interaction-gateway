@@ -11,7 +11,7 @@ stages:
 .elixir-env: &elixir-env
   language: elixir
   elixir: "1.10"
-  otp_release: "23.0"
+  otp_release: "20.3.8.5"
 
 jobs:
   include:
