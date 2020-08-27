@@ -19,17 +19,36 @@ jobs:
       <<: *elixir-env
       env:
         - MIX_ENV=test
-      arch: 
-        - arm64
-        - amd64
+      script:
+        - mix test
+        - mix credo --ignore-checks Design
+    - stage: unittest
+      <<: *elixir-env
+      arch: arm64
+      env:
+        - MIX_ENV=test
       script:
         - mix test
         - mix credo --ignore-checks Design
     - stage: exampletest
       language: node_js
-      arch: 
-        - arm64
-        - amd64
+      node_js:
+        - "10"
+      addons:
+        apt:
+          packages:
+            - libgconf-2-4
+      cache:
+        npm: true
+        directories:
+          - ~/.cache
+      script:
+        - cd examples/tests
+        - npm ci
+        - npm run cypress:run:all
+    - stage: exampletest
+      arch: arm64
+      language: node_js
       node_js:
         - "10"
       addons:
@@ -45,18 +64,31 @@ jobs:
         - npm ci
         - npm run cypress:run:all
     - stage: dockerbuild
-      arch: 
-        - arm64
-        - amd64
+      language: minimal
+      services:
+        - docker
+      script:
+        - docker build .
+    - stage: dockerbuild
+      arch: arm64
       language: minimal
       services:
         - docker
       script:
         - docker build .
     - stage: website
-      arch: 
-        - arm64
-        - amd64
+      language: node_js
+      node_js:
+        - "8"
+      cache:
+        yarn: true
+      script:
+        - git config --global user.name "${GH_NAME}"
+        - git config --global user.email "${GH_EMAIL}"
+        - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+        - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages
+    - stage: website
+      arch: arm64
       language: node_js
       node_js:
         - "8"
@@ -69,13 +101,17 @@ jobs:
         - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages
     - stage: sourcedocs
       <<: *elixir-env
-      arch: 
-        - arm64
-        - amd64
       script:
         - git config --global user.name "${GH_NAME}"
         - git config --global user.email "${GH_EMAIL}"
         - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
         - GIT_USER="${GH_NAME}" mix publish_gh_pages
-
+    - stage: sourcedocs
+      <<: *elixir-env
+      arch: arm64
+      script:
+        - git config --global user.name "${GH_NAME}"
+        - git config --global user.email "${GH_EMAIL}"
+        - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+        - GIT_USER="${GH_NAME}" mix publish_gh_pages
 
