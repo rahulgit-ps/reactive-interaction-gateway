@@ -60,6 +60,7 @@ jobs:
         directories:
           - ~/.cache
       script:
+        - sudo apt-get install xvfb
         - cd examples/tests
         - npm ci
         - npm run cypress:run:all
