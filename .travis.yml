@@ -11,7 +11,11 @@ stages:
 .elixir-env: &elixir-env
   language: elixir
   elixir: "1.10"
-  otp_release: "22.0"
+  otp_release:
+    - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; 
+      then "22.0.5";
+      else "22.0";
+      fi
 
 jobs:
   include:
