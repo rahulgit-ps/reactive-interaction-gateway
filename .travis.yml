@@ -56,14 +56,17 @@ jobs:
           packages:
             - libgconf-2-4
       cache:
-        npm: true
+        npx: true
         directories:
           - ~/.cache
       script:
         - cd examples/tests
         - sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+        - npx cypress cache clear
+        - npx cypress install
+        - set NODE_OPTIONS=
         - npm ci
-        - npm run cypress:run:all
+        - npx run cypress:run:all
     - stage: dockerbuild
       language: minimal
       services:
