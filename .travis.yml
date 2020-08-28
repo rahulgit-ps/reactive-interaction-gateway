@@ -62,9 +62,10 @@ jobs:
       script:
         - sudo apt-get install xvfb
         - cd examples/tests
-        - npm install
+        - npm ci
         - npx cypress cache clear
         - npx cypress install
+        - npx cypress open
         - set NODE_OPTIONS=
         - npm run cypress:run:all
     - stage: dockerbuild
