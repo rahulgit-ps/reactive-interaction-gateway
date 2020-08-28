@@ -61,10 +61,10 @@ jobs:
           - ~/.cache
       script:
         - sudo apt-get install xvfb
-        - npx cypress cache clear
-        - npx cypress install
         - cd examples/tests
         - npm ci
+        - npx cypress cache clear
+        - npx cypress install
         - npm run cypress:run:all
     - stage: dockerbuild
       language: minimal
