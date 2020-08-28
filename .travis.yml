@@ -61,8 +61,8 @@ jobs:
           - ~/.cache
       script:
         - sudo apt-get install xvfb
-        - npm cypress cache clear
-        - npm cypress install
+        - cypress cache clear
+        - cypress install
         - cd examples/tests
         - npm ci
         - npm run cypress:run:all
