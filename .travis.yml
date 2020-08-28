@@ -65,7 +65,7 @@ jobs:
         - npm ci
         - npx cypress cache clear
         - npx cypress install
-        - unset NODE_OPTIONS
+        - set NODE_OPTIONS=
         - npm run cypress:run:all
     - stage: dockerbuild
       language: minimal
