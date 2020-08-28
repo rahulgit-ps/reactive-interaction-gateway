@@ -65,6 +65,7 @@ jobs:
         - npm ci
         - npx cypress cache clear
         - npx cypress install
+        - unset NODE_OPTIONS
         - npm run cypress:run:all
     - stage: dockerbuild
       language: minimal
@@ -101,6 +102,7 @@ jobs:
         - git config --global user.name "${GH_NAME}"
         - git config --global user.email "${GH_EMAIL}"
         - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+        - npm install
         - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages
     - stage: sourcedocs
       <<: *elixir-env
