@@ -62,7 +62,7 @@ jobs:
       script:
         - sudo apt-get install xvfb
         - cd examples/tests
-        - npm ci
+        - npx ci
         - npx cypress cache clear
         - npx cypress install
         - set NODE_OPTIONS=
