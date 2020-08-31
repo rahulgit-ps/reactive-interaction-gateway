@@ -61,8 +61,8 @@ jobs:
           - ~/.cache
       script:
         - cd examples/tests
-        - sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
         - npm ci
+        - sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
         - set NODE_OPTIONS=
         - npm run cypress:run:all
     - stage: dockerbuild
